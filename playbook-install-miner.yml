@@ -8,20 +8,16 @@
   - name: stop verium miner
     service: name=veriumminer state=stopped
     become: yes
-  - name: copy miner script
-    copy:
-      src: files/run_miner.sh
+  - name: template for miner script
+    vars:
+      numcores_use: "{{ numcores_to_use }}"
+    template:
+      src: files/run_miner.j2
       dest: /home/orangepi/veriumMiner/run_miner.sh
       owner: orangepi
       group: orangepi
-      mode: u=rwx,g=rx,o=rx
-  - name: set the variables in miner script
-    replace:
-      path: /home/orangepi/veriumMiner/run_miner.sh
-      regexp: "NUMCORES_TO_USE"
-      replace: "{{ numcores_to_use }}"
-      owner: orangepi
-      group: orangepi
+      mode: "u=rwx"
+
   - name: restart verium miner
     service: name=veriumminer state=started
     become: yes
