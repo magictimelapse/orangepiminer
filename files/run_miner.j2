@@ -1,0 +1,3 @@
+#!/bin/bash
+cd /home/orangepi/veriumMiner; ./cpuminer -n 1048576 -o stratum+tcp://eu.vrm.n3rd3d.com:3332 -u mragicl.`hostname` -p vvva -t 0 -1 {{ numcores_use }} --cpu-affinity-stride 1 --cpu-affinity-default-index 0 --cpu-affinity-oneway-index {{ numcores_use }}
+
