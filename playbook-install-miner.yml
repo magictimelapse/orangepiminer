@@ -1,0 +1,27 @@
+
+- hosts: all
+  tasks:
+  - name: set the hostname
+    hostname:
+      name: "{{ hostname }}"
+    become: yes
+  - name: stop verium miner
+    service: name=veriumminer state=stopped
+    become: yes
+  - name: copy miner script
+    copy:
+      src: files/run_miner.sh
+      dest: /home/orangepi/veriumMiner/run_miner.sh
+      owner: orangepi
+      group: orangepi
+      mode: u=rwx,g=rx,o=rx
+  - name: set the variables in miner script
+    replace:
+      path: /home/orangepi/veriumMiner/run_miner.sh
+      regexp: "NUMCORES_TO_USE"
+      replace: "{{ numcores_to_use }}"
+      owner: orangepi
+      group: orangepi
+  - name: restart verium miner
+    service: name=veriumminer state=started
+    become: yes
